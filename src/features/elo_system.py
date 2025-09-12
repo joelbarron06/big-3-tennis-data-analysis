@@ -16,15 +16,18 @@ class EloSystem:
             self.hard_ratings[player] = self.initial_rating
             self.carpet_ratings[player] = self.initial_rating
         if surface == 'Grass':
-            return self.grass_ratings[player]
+            return self.ratings[player], self.grass_ratings[player]
         elif surface == 'Clay':
-            return self.clay_ratings[player]
+            return self.ratings[player], self.clay_ratings[player]
         elif surface == 'Hard':
-            return self.hard_ratings[player]
+            return self.ratings[player], self.hard_ratings[player]
         elif surface == 'Carpet':
-            return self.carpet_ratings[player]
+            return self.ratings[player], self.carpet_ratings[player]
         else:
             return self.ratings[player]
         
     def expected_score(self, r_a, r_b):
         return 1 / (1 + 10**((r_b - r_a) / 400))
+    
+    def update_rating(self, player_a, player_b, result, surface=None):
+        ...

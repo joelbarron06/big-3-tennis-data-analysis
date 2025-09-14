@@ -1,3 +1,5 @@
+import pandas as pd
+
 class EloSystem:
     def __init__(self, k_factor=32, initial_rating=1500):
         self.ratings = {}
@@ -74,4 +76,17 @@ class EloSystem:
                 self.carpet_ratings[loser] = r_l_new_surface
 
         return 
+
+    def process_match_df(self, df):
+        elo_df = df.copy()
+        for row in elo_df:
+            self.update_rating(row['winner_name'], row['loser_name'], row['surface'])
+            row['winner_elo'] = self.get_rating(row['winner_name'])[0]
+            row['loser_elo'] = self.get_rating(row['loser_name'])[0]
+            row['winner_elo_surface'] = self.get_rating(row['winner_name'], row['surface'])[1]
+            row['loser_elo_surface'] = self.get_rating(row['loser_name'], row['surface'])[1]
+        return elo_df
+    
+    def create_time_series_df(self, df):
+        ...
 

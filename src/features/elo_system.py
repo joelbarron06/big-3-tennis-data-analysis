@@ -79,12 +79,21 @@ class EloSystem:
 
     def process_match_df(self, df):
         elo_df = df.copy()
-        for row in elo_df:
-            self.update_rating(row['winner_name'], row['loser_name'], row['surface'])
-            row['winner_elo'] = self.get_rating(row['winner_name'])[0]
-            row['loser_elo'] = self.get_rating(row['loser_name'])[0]
-            row['winner_elo_surface'] = self.get_rating(row['winner_name'], row['surface'])[1]
-            row['loser_elo_surface'] = self.get_rating(row['loser_name'], row['surface'])[1]
+
+        # Initialize new columns
+        elo_df['winner_elo'] = 0.0
+        elo_df['loser_elo'] = 0.0
+        elo_df['winner_elo_surface'] = 0.0
+        elo_df['loser_elo_surface'] = 0.0
+
+        for idx, row in elo_df.iterrows():
+            self.update_ratings(row['winner_name'], row['loser_name'], row['surface'])
+
+            elo_df.loc[idx, 'winner_elo'] = self.get_rating(row['winner_name'])
+            elo_df.loc[idx, 'loser_elo'] = self.get_rating(row['loser_name'])
+            elo_df.loc[idx, 'winner_elo_surface'] = self.get_rating(row['winner_name'], row['surface'])
+            elo_df.loc[idx, 'loser_elo_surface'] = self.get_rating(row['loser_name'], row['surface'])
+
         return elo_df
     
     def create_time_series_df(self, df):

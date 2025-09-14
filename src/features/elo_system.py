@@ -87,12 +87,12 @@ class EloSystem:
         elo_df['loser_elo_surface'] = 0.0
 
         for idx, row in elo_df.iterrows():
-            self.update_ratings(row['winner_name'], row['loser_name'], row['surface'])
+            self.update_rating(row['winner_name'], row['loser_name'], row['surface'])
 
             elo_df.loc[idx, 'winner_elo'] = self.get_rating(row['winner_name'])
             elo_df.loc[idx, 'loser_elo'] = self.get_rating(row['loser_name'])
-            elo_df.loc[idx, 'winner_elo_surface'] = self.get_rating(row['winner_name'], row['surface'])
-            elo_df.loc[idx, 'loser_elo_surface'] = self.get_rating(row['loser_name'], row['surface'])
+            elo_df.loc[idx, 'winner_elo_surface'] = self.get_rating(row['winner_name'], row['surface'])[1]
+            elo_df.loc[idx, 'loser_elo_surface'] = self.get_rating(row['loser_name'], row['surface'])[1]
 
         return elo_df
     

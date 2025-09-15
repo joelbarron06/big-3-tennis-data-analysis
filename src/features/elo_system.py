@@ -95,7 +95,4 @@ class EloSystem:
             elo_df.loc[idx, 'loser_elo_surface'] = self.get_rating(row['loser_name'], row['surface'])[1]
 
         return elo_df
-    
-    def create_time_series_df(self, df):
-        ...
 
